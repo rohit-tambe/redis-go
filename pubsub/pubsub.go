@@ -2,8 +2,9 @@ package pubsub
 
 import (
 	"fmt"
-	"github.com/garyburd/redigo/redis"
 	"log"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 // Service service
@@ -60,15 +61,7 @@ func (s *Service) Subscribe(key string, msg chan []byte) error {
 	if err := psc.Subscribe(key); err != nil {
 		return err
 	}
-	// func() {
-	// 	for {
-	// 		switch v := psc.Receive().(type) {
-	// 		case redis.Message:
-	// 			fmt.Println(string(v.Data))
-	// 			msg <- v.Data
-	// 		}
-	// 	}
-	// }()
+	// get message from publisher
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
